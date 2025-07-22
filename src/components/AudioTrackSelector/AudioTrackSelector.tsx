@@ -11,6 +11,14 @@ type AudioTrack = {
     language: string;
 };
 
+// Extend HTMLVideoElement type to include audioTracks
+interface ExtendedHTMLVideoElement extends HTMLVideoElement {
+    audioTracks?: {
+        length: number;
+        [index: number]: AudioTrack & { enabled: boolean };
+    };
+}
+
 function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
     const { setSelectedVideo, selectedAudioTrack } = useVideoContext();
     const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
@@ -19,10 +27,11 @@ function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
         if (!video) return;
 
         const handleLoadedMetadata = () => {
-            if (video.audioTracks && video.audioTracks.length > 1) {
+            const extendedVideo = video as ExtendedHTMLVideoElement;
+            if (extendedVideo.audioTracks && extendedVideo.audioTracks.length > 1) {
                 const tracks: AudioTrack[] = [];
-                for (let i = 0; i < video.audioTracks.length; i++) {
-                    const track = video.audioTracks[i];
+                for (let i = 0; i < extendedVideo.audioTracks.length; i++) {
+                    const track = extendedVideo.audioTracks[i];
                     tracks.push({
                         enabled: track.enabled,
                         label: track.label,
@@ -46,15 +55,16 @@ function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
 
     const handleAudioTrackChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const trackIndex = parseInt(e.target.value);
+        const extendedVideo = video as ExtendedHTMLVideoElement;
         
-        if (video?.audioTracks) {
+        if (extendedVideo?.audioTracks) {
             // Disable all tracks
-            for (let i = 0; i < video.audioTracks.length; i++) {
-                video.audioTracks[i].enabled = false;
+            for (let i = 0; i < extendedVideo.audioTracks.length; i++) {
+                extendedVideo.audioTracks[i].enabled = false;
             }
             // Enable selected track
-            if (video.audioTracks[trackIndex]) {
-                video.audioTracks[trackIndex].enabled = true;
+            if (extendedVideo.audioTracks[trackIndex]) {
+                extendedVideo.audioTracks[trackIndex].enabled = true;
             }
         }
 
