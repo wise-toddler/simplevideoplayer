@@ -24,6 +24,7 @@ const VideoContextProvider = ({ children }: PropsWithChildren) => {
         videoUrl: '',
         videoName: '',
         subtitleSrc: '',
+        selectedAudioTrack: 0,
     });
 
     const selectedVideo = { ...video, setSelectedVideo: setVideo };
