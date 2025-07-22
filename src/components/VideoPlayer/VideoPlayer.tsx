@@ -60,6 +60,7 @@ function VideoPlayer(props: VideoPlayerProps) {
     return (
         <div className='VideoPlayer' ref={videoContainer}>
             {videoPlayerControls}
+            {audioTrackSelector}
             {keyboardControls}
         </div>
     );
