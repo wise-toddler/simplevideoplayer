@@ -5,16 +5,31 @@ type AudioTrackSelectorProps = {
     video: HTMLVideoElement | null;
 };
 
+type AudioTrack = {
+    enabled: boolean;
+    label: string;
+    language: string;
+};
+
 function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
     const { setSelectedVideo, selectedAudioTrack } = useVideoContext();
-    const [audioTracks, setAudioTracks] = useState<AudioTrackList | null>(null);
+    const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
     useEffect(() => {
         if (!video) return;
 
         const handleLoadedMetadata = () => {
             if (video.audioTracks && video.audioTracks.length > 1) {
-                setAudioTracks(video.audioTracks);
+                const tracks: AudioTrack[] = [];
+                for (let i = 0; i < video.audioTracks.length; i++) {
+                    const track = video.audioTracks[i];
+                    tracks.push({
+                        enabled: track.enabled,
+                        label: track.label,
+                        language: track.language,
+                    });
+                }
+                setAudioTracks(tracks);
             }
         };
 
@@ -32,14 +47,14 @@ function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
     const handleAudioTrackChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const trackIndex = parseInt(e.target.value);
         
-        if (audioTracks) {
+        if (video?.audioTracks) {
             // Disable all tracks
-            for (let i = 0; i < audioTracks.length; i++) {
-                audioTracks[i].enabled = false;
+            for (let i = 0; i < video.audioTracks.length; i++) {
+                video.audioTracks[i].enabled = false;
             }
             // Enable selected track
-            if (audioTracks[trackIndex]) {
-                audioTracks[trackIndex].enabled = true;
+            if (video.audioTracks[trackIndex]) {
+                video.audioTracks[trackIndex].enabled = true;
             }
         }
 
@@ -49,7 +64,7 @@ function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
         }));
     };
 
-    if (!audioTracks || audioTracks.length <= 1) {
+    if (audioTracks.length <= 1) {
         return null;
     }
 
@@ -64,7 +79,7 @@ function AudioTrackSelector({ video }: AudioTrackSelectorProps) {
                 onChange={handleAudioTrackChange}
                 className="ml-2 bg-gray-800 text-white border border-gray-600 rounded px-2 py-1 text-sm"
             >
-                {Array.from(audioTracks).map((track, index) => (
+                {audioTracks.map((track, index) => (
                     <option key={index} value={index}>
                         {track.label || `Track ${index + 1}`}
                     </option>
