@@ -72,6 +72,7 @@ const Screen = () => {
                     </button>
                     <p>
                         SRT and WebVTT Subtitle files supported &nbsp;|&nbsp;
+                        Multiple Audio Tracks supported &nbsp;|&nbsp;
                         Press <b>Arrow Keys</b> for Volume and Skips
                     </p>
                 </div>

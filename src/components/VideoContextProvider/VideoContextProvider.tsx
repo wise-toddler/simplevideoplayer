@@ -10,6 +10,7 @@ export type Video = {
     videoUrl: string;
     videoName: string;
     subtitleSrc: string;
+    selectedAudioTrack: number;
 };
 export const videoContext = createContext<
     | (Video & {
@@ -23,6 +24,7 @@ const VideoContextProvider = ({ children }: PropsWithChildren) => {
         videoUrl: '',
         videoName: '',
         subtitleSrc: '',
+        selectedAudioTrack: 0,
     });
 
     const selectedVideo = { ...video, setSelectedVideo: setVideo };

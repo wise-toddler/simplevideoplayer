@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import KeyboardVideoControls from '../CustomVideoControls/CustomVideoControls';
 import VideoControls from '../VideoControls/VideoControls';
+import AudioTrackSelector from '../AudioTrackSelector/AudioTrackSelector';
 import './VideoPlayer.css';
 
 type VideoPlayerProps = {
@@ -15,6 +16,8 @@ function VideoPlayer(props: VideoPlayerProps) {
     const [keyboardControls, setKeyboardControls] =
         useState<React.JSX.Element | null>(null);
     const [videoPlayerControls, setVideoControls] =
+        useState<React.JSX.Element | null>(null);
+    const [audioTrackSelector, setAudioTrackSelector] =
         useState<React.JSX.Element | null>(null);
 
     const videoContainer = useRef<HTMLDivElement>(null);
@@ -48,12 +51,16 @@ function VideoPlayer(props: VideoPlayerProps) {
                     videoContainer={videoContainer.current}
                 />
             );
+            setAudioTrackSelector(
+                <AudioTrackSelector video={video} />
+            );
         }
     }, [videoContainer, video, subtitleSrc]);
 
     return (
         <div className='VideoPlayer' ref={videoContainer}>
             {videoPlayerControls}
+            {audioTrackSelector}
             {keyboardControls}
         </div>
     );
