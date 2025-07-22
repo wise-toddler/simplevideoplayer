@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import KeyboardVideoControls from '../CustomVideoControls/CustomVideoControls';
 import VideoControls from '../VideoControls/VideoControls';
+import AudioTrackSelector from '../AudioTrackSelector/AudioTrackSelector';
 import './VideoPlayer.css';
 
 type VideoPlayerProps = {
