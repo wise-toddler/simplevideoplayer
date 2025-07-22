@@ -17,6 +17,8 @@ function VideoPlayer(props: VideoPlayerProps) {
         useState<React.JSX.Element | null>(null);
     const [videoPlayerControls, setVideoControls] =
         useState<React.JSX.Element | null>(null);
+    const [audioTrackSelector, setAudioTrackSelector] =
+        useState<React.JSX.Element | null>(null);
 
     const videoContainer = useRef<HTMLDivElement>(null);
 
