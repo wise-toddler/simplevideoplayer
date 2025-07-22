@@ -10,6 +10,7 @@ export type Video = {
     videoUrl: string;
     videoName: string;
     subtitleSrc: string;
+    selectedAudioTrack: number;
 };
 export const videoContext = createContext<
     | (Video & {
