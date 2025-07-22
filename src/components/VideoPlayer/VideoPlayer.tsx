@@ -51,6 +51,9 @@ function VideoPlayer(props: VideoPlayerProps) {
                     videoContainer={videoContainer.current}
                 />
             );
+            setAudioTrackSelector(
+                <AudioTrackSelector video={video} />
+            );
         }
     }, [videoContainer, video, subtitleSrc]);
 
